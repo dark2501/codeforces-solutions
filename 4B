@@ -1,1 +1,48 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <cstring>
+#include <stack>
+#include <map>
+#include <queue>
+using namespace std;
 
+pair<int, int> days[35];
+int ans[35];
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+#endif
+
+    int d,sum;
+    scanf("%d %d", &d, &sum);
+    for (int i = 0; i < d; i++) scanf("%d %d", &(days[i].first), &(days[i].second));
+
+    for (int i = 0; i < d; i++) {
+        ans[i] = days[i].first;
+        sum -= ans[i];
+    }
+
+    if (sum < 0) {
+        printf("NO\n");
+        return 0;
+    }
+
+    for (int i = 0; i < d; i++) {
+        if (sum == 0) break;
+        int dlt = days[i].second - days[i].first;
+        ans[i] += (dlt < sum ? dlt : sum);
+        sum -= (dlt < sum ? dlt : sum);
+    }
+
+    if (sum > 0) {
+        printf("NO\n");
+        return 0;
+    }
+    printf("YES\n%d", ans[0]);
+    for (int i = 1; i < d; i++) printf(" %d", ans[i]);
+    printf("\n");
+    return 0;
+}
